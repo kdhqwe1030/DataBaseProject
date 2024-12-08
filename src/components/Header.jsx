@@ -1,16 +1,45 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../assets/Logo.png';
 import backIcon from '../assets/backIcon.png';
 import langIcon from '../assets/langIcon.png';
 
-const Header = () => {
+const Header = ({ setSelectService }) => {
+  const [toggle, setToggle] = useState(false);
+  const onClickEvent = (target) => {
+    setSelectService(target);
+    setToggle(false);
+  };
   return (
     <BaseContainer>
       <MainLogo src={logo} />
       <BackLogo src={backIcon} />
       <MainFrame>
-        <MainFrameText>학부서비스 메뉴</MainFrameText>
+        <MainFrameText onClick={() => setToggle(!toggle)}>
+          학부서비스 메뉴
+        </MainFrameText>
+        {toggle && (
+          <FrameList>
+            <ListItem onClick={() => onClickEvent('동아리 관리')}>
+              동아리 관리
+            </ListItem>
+            <ListItem onClick={() => onClickEvent('회원 관리')}>
+              회원 관리
+            </ListItem>
+            <ListItem onClick={() => onClickEvent('활동 관리')}>
+              활동 관리
+            </ListItem>
+            <ListItem onClick={() => onClickEvent('재정 관리')}>
+              재정 관리
+            </ListItem>
+            <ListItem onClick={() => onClickEvent('지도교수 관련')}>
+              지도교수 관련
+            </ListItem>
+            <ListItem onClick={() => onClickEvent('학과 관리')}>
+              학과 관련
+            </ListItem>
+          </FrameList>
+        )}
       </MainFrame>
       <ContentWrapper>
         <IconWrapper src="https://eisn.cbnu.ac.kr/nxui/_resource_/_theme_/default/images/img_TF_user.png?nexaversion=0" />
@@ -77,6 +106,7 @@ const BackLogo = styled.img`
 
 const MainFrameText = styled.div`
   position: relative;
+  cursor: pointer;
 
   color: #d3dcec;
   font: bold 18px / 1.1 '맑은 고딕';
@@ -119,4 +149,29 @@ const IconWrapper = styled.img`
   vertical-align: middle;
   background-position: center center;
   background-repeat: no-repeat;
+`;
+
+const FrameList = styled.div`
+  position: absolute;
+  left: 90px;
+  top: 60px;
+  transform: translateX(100%);
+  background-color: #fff;
+  color: #212121;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 180px;
+  z-index: 10;
+`;
+
+const ListItem = styled.div`
+  padding: 8px 10px;
+  font-size: 14px;
+
+  cursor: pointer;
+  &:hover {
+    color: #f0f0f0;
+    font-weight: bold;
+    background-color: #292e66;
+  }
 `;

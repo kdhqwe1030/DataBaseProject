@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-const List = () => {
+import ListIconImg from '../assets/ListIcon.png';
+
+const List = ({ selectService, selectList, additionalList, setSelectList }) => {
   const [choose, setChoose] = useState('메뉴');
 
   return (
     <BaseContainer>
-      <MenuArea choose={choose} setChoose={setChoose} />
-
+      <MenuArea
+        choose={choose}
+        setChoose={setChoose}
+        selectService={selectService}
+        selectList={selectList}
+        additionalList={additionalList}
+        setSelectList={setSelectList}
+      />
       <BottomArea />
     </BaseContainer>
   );
@@ -20,7 +28,14 @@ const BaseContainer = styled.div`
   border-right: 1px solid #c7c9cf;
 `;
 
-const MenuArea = ({ choose, setChoose }) => {
+const MenuArea = ({
+  choose,
+  setChoose,
+  selectService,
+  selectList,
+  additionalList,
+  setSelectList,
+}) => {
   return (
     <MenuBackGround>
       <MenuWrapper>
@@ -39,7 +54,12 @@ const MenuArea = ({ choose, setChoose }) => {
       </MenuSubBarWrapper>
       {choose === '메뉴' && (
         <>
-          <TitleArea /> <ListArea />
+          <TitleArea selectService={selectService} />{' '}
+          <ListArea
+            selectList={selectList}
+            additionalList={additionalList}
+            setSelectList={setSelectList}
+          />
         </>
       )}
       {choose === '마이메뉴' && <Nodata />}
@@ -63,6 +83,7 @@ const MenuContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 const MenuSubBarWrapper = styled.div`
   width: 100%;
@@ -95,11 +116,11 @@ const NodataText = styled.div`
   font-weight: bold;
   font-size: 14px;
 `;
-const TitleArea = () => {
+const TitleArea = ({ selectService }) => {
   return (
     <TitleWrapper>
       <TitleContainer>
-        <Title>동아리 관리</Title>
+        <Title>{selectService}</Title>
       </TitleContainer>
     </TitleWrapper>
   );
@@ -125,14 +146,71 @@ const Title = styled.div`
   color: #282e6a;
   font: bold 17px/1.1 '맑은 고딕';
 `;
-const ListArea = () => {
-  return <ListContainer></ListContainer>;
+
+const ListArea = ({ additionalList, selectList, setSelectList }) => {
+  return (
+    <ListContainer>
+      {additionalList && additionalList.length > 0 ? (
+        additionalList.map((item, index) => (
+          <ListItem
+            onClick={() => setSelectList(item)}
+            $choose={item === selectList ? true : false}
+            key={index}
+          >
+            <ListIcon src={ListIconImg} />
+            <ListText $choose={item === selectList ? true : false}>
+              {item}
+            </ListText>
+          </ListItem>
+        ))
+      ) : (
+        <NoDataText>항목이 없습니다.</NoDataText>
+      )}
+    </ListContainer>
+  );
 };
+
 const ListContainer = styled.div`
   flex-grow: 1;
   width: 100%;
   height: 514px;
+  padding: 0px 5px;
+  overflow-y: auto;
 `;
+
+const ListItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px;
+  cursor: pointer;
+  background-color: ${({ $choose }) => ($choose ? '#FDF5F6' : '')};
+  &:hover {
+    background-color: #fdf5f6;
+  }
+`;
+
+const ListIcon = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
+const ListText = styled.div`
+  font: 14px/1.5 '맑은 고딕';
+  color: ${({ $choose }) => ($choose ? '#bc3259' : '#333')};
+  font-weight: ${({ $choose }) => ($choose ? '600' : '400')};
+  &:hover {
+    color: #a83f4b;
+  }
+`;
+
+const NoDataText = styled.div`
+  text-align: center;
+  color: #aaa;
+  font: 14px/1.5 '맑은 고딕';
+  margin-top: 20px;
+`;
+
 const BottomArea = () => {
   return (
     <BottomWrapper>
@@ -164,6 +242,7 @@ const BottomContainer = styled.div`
   align-items: center;
   gap: 6px;
   padding: 5px 15px;
+  cursor: pointer;
 `;
 const BottomIcon = styled.img`
   width: 24px;
