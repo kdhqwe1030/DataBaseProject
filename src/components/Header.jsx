@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import logo from '../assets/Logo.png';
 import backIcon from '../assets/backIcon.png';
 import langIcon from '../assets/langIcon.png';
+
 const Header = () => {
   return (
     <BaseContainer>
       <MainLogo src={logo} />
       <BackLogo src={backIcon} />
       <MainFrame>
-        <MainFrameText>동아리 관리</MainFrameText>
+        <MainFrameText>학부 서비스 메뉴</MainFrameText>
       </MainFrame>
       <ContentWrapper>
         <IconWrapper src="https://eisn.cbnu.ac.kr/nxui/_resource_/_theme_/default/images/img_TF_user.png?nexaversion=0" />
@@ -90,7 +91,7 @@ const MainFrameText = styled.div`
     content: '';
     position: absolute;
     top: -10px;
-    left: 50px;
+    left: 75px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
