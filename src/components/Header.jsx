@@ -10,7 +10,7 @@ const Header = () => {
       <MainLogo src={logo} />
       <BackLogo src={backIcon} />
       <MainFrame>
-        <MainFrameText>학부 서비스 메뉴</MainFrameText>
+        <MainFrameText>학부서비스 메뉴</MainFrameText>
       </MainFrame>
       <ContentWrapper>
         <IconWrapper src="https://eisn.cbnu.ac.kr/nxui/_resource_/_theme_/default/images/img_TF_user.png?nexaversion=0" />
@@ -62,7 +62,7 @@ const BaseContainer = styled.div`
 `;
 const MainFrame = styled.div`
   flex-grow: 1;
-  padding: 10px 50px;
+  padding: 10px 30px;
 `;
 const MainLogo = styled.img`
   width: 180px;
@@ -91,7 +91,7 @@ const MainFrameText = styled.div`
     content: '';
     position: absolute;
     top: -10px;
-    left: 75px;
+    left: 70px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
