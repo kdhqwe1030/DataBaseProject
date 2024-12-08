@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
+import List from '../components/List';
 const Home = () => {
   return (
     <BaseContainer>
       <Header></Header>
-      <ContentWrapper></ContentWrapper>
+      <ContentWrapper>
+        <List></List>
+      </ContentWrapper>
     </BaseContainer>
   );
 };
@@ -18,4 +21,6 @@ const BaseContainer = styled.div`
 `;
 const ContentWrapper = styled.div`
   display: flex;
+  height: calc(100vh - 66px);
+  width: 100%;
 `;
