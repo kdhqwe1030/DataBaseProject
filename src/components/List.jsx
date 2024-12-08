@@ -5,6 +5,24 @@ const List = () => {
 
   return (
     <BaseContainer>
+      <MenuArea choose={choose} setChoose={setChoose} />
+
+      <BottomArea />
+    </BaseContainer>
+  );
+};
+
+export default List;
+
+const BaseContainer = styled.div`
+  width: 300px;
+  height: 100%;
+  border-right: 1px solid #c7c9cf;
+`;
+
+const MenuArea = ({ choose, setChoose }) => {
+  return (
+    <MenuBackGround>
       <MenuWrapper>
         <MenuContainer onClick={() => setChoose('메뉴')}>
           <MenuText $choose={choose === '메뉴' ? true : false}>메뉴</MenuText>
@@ -19,20 +37,18 @@ const List = () => {
         <MenuSubBar $choose={choose === '메뉴' ? true : false}></MenuSubBar>
         <MenuSubBar $choose={choose === '마이메뉴' ? true : false}></MenuSubBar>
       </MenuSubBarWrapper>
-
-      <TitleArea></TitleArea>
-      <ListArea></ListArea>
-      <BottomArea></BottomArea>
-    </BaseContainer>
+      {choose === '메뉴' && (
+        <>
+          <TitleArea /> <ListArea />
+        </>
+      )}
+      {choose === '마이메뉴' && <Nodata />}
+    </MenuBackGround>
   );
 };
-
-export default List;
-
-const BaseContainer = styled.div`
-  width: 260px;
-  height: 100%;
-  border-right: 1px solid #c7c9cf;
+const MenuBackGround = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 const MenuWrapper = styled.div`
   width: 100%;
@@ -60,6 +76,24 @@ const MenuSubBar = styled.div`
 const MenuText = styled.div`
   color: ${({ $choose }) => ($choose ? '#b72654' : '#9CA1AF')};
   font: bold 16px/1.1 '맑은 고딕';
+`;
+const Nodata = () => {
+  return (
+    <NodataContainer>
+      <NodataText>No data</NodataText>
+    </NodataContainer>
+  );
+};
+const NodataContainer = styled.div`
+  height: 584px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const NodataText = styled.div`
+  font-weight: bold;
+  font-size: 14px;
 `;
 const TitleArea = () => {
   return (
@@ -97,7 +131,7 @@ const ListArea = () => {
 const ListContainer = styled.div`
   flex-grow: 1;
   width: 100%;
-  height: 524px;
+  height: 514px;
 `;
 const BottomArea = () => {
   return (
@@ -121,8 +155,8 @@ const BottomWrapper = styled.div`
   align-items: center;
 `;
 const BottomContainer = styled.div`
-  width: 208px;
-  height: 36px;
+  width: 225px;
+  height: 40px;
   background: #f5f5f5;
   border-radius: 6px;
   border: 2px solid transparent;
