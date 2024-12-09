@@ -11,6 +11,7 @@ const App = () => {
     serviceMenu[selectService]
   ); // 선택한 서비스 리스트
   const [selectList, setSelectList] = useState(''); // 선택한 서비스 리스트 내에서 선택한 것
+  const [selectStack, setSelectStack] = useState([]); //Select Stack
   useEffect(
     () => setAdditionalList(serviceMenu[selectService]),
     [selectService]
@@ -23,11 +24,16 @@ const App = () => {
           <List
             selectService={selectService}
             selectList={selectList}
-            additionalList={additionalList}
             setSelectList={setSelectList}
+            additionalList={additionalList}
           ></List>
           <ListExceptContainer>
-            <Select></Select>
+            <Select
+              selectList={selectList}
+              setSelectList={setSelectList}
+              selectStack={selectStack}
+              setSelectStack={setSelectStack}
+            ></Select>
             <Routes>
               <Route path="/" element={<Home />} />
             </Routes>
