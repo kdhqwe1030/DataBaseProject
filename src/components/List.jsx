@@ -2,7 +2,13 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import ListIconImg from '../assets/ListIcon.png';
 
-const List = ({ selectService, selectList, additionalList, setSelectList }) => {
+const List = ({
+  selectService,
+  selectList,
+  additionalList,
+  setSelectList,
+  AppenStack,
+}) => {
   const [choose, setChoose] = useState('메뉴');
 
   return (
@@ -14,6 +20,7 @@ const List = ({ selectService, selectList, additionalList, setSelectList }) => {
         selectList={selectList}
         additionalList={additionalList}
         setSelectList={setSelectList}
+        AppenStack={AppenStack}
       />
       <BottomArea />
     </BaseContainer>
@@ -35,6 +42,7 @@ const MenuArea = ({
   selectList,
   additionalList,
   setSelectList,
+  AppenStack,
 }) => {
   return (
     <MenuBackGround>
@@ -59,6 +67,7 @@ const MenuArea = ({
             selectList={selectList}
             additionalList={additionalList}
             setSelectList={setSelectList}
+            AppenStack={AppenStack}
           />
         </>
       )}
@@ -147,13 +156,21 @@ const Title = styled.div`
   font: bold 17px/1.1 '맑은 고딕';
 `;
 
-const ListArea = ({ additionalList, selectList, setSelectList }) => {
+const ListArea = ({
+  additionalList,
+  selectList,
+  setSelectList,
+  AppenStack,
+}) => {
   return (
     <ListContainer>
       {additionalList && additionalList.length > 0 ? (
         additionalList.map((item, index) => (
           <ListItem
-            onClick={() => setSelectList(item)}
+            onClick={() => {
+              setSelectList(item);
+              AppenStack(item);
+            }}
             $choose={item === selectList ? true : false}
             key={index}
           >

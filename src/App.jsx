@@ -12,6 +12,13 @@ const App = () => {
   ); // 선택한 서비스 리스트
   const [selectList, setSelectList] = useState(''); // 선택한 서비스 리스트 내에서 선택한 것
   const [selectStack, setSelectStack] = useState([]); //Select Stack
+  const AppenStack = (item) => {
+    if (!selectStack.includes(item)) {
+      setSelectStack((prevStack) => [...prevStack, item]);
+    }
+    console.log('After adding:', selectStack);
+    console.log('After adding:', selectStack);
+  };
   useEffect(
     () => setAdditionalList(serviceMenu[selectService]),
     [selectService]
@@ -26,6 +33,7 @@ const App = () => {
             selectList={selectList}
             setSelectList={setSelectList}
             additionalList={additionalList}
+            AppenStack={AppenStack}
           ></List>
           <ListExceptContainer>
             <Select

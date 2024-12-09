@@ -8,7 +8,6 @@ const Select = ({ selectList, setSelectList, selectStack, setSelectStack }) => {
     <BaseContainer>
       <HomeIcon src={Home} />
       <MainSelectWrapper>
-        <SelectItem text={'동아리 생성 수정'} />
         {selectStack.map((item) => (
           <SelectItem
             key={item}
@@ -43,6 +42,9 @@ const MainSelectWrapper = styled.div`
   padding: 0px 20px;
   overflow-x: auto;
   overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 const HomeIcon = styled.img`
   height: 16px;
@@ -58,10 +60,10 @@ const SelectItem = ({
   selectStack,
   setSelectStack,
 }) => {
-  const onClickItem = ({ text }) => {
+  const onClickItem = (text) => {
     setSelectList(text);
   };
-  const onClickX = ({ text }) => {
+  const onClickX = (text) => {
     let filtered = selectStack.filter((element) => element !== text);
     setSelectStack(filtered);
   };
