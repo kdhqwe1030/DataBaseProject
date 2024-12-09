@@ -29,6 +29,8 @@ export default Select;
 const BaseContainer = styled.div`
   width: 100%;
   height: 44px;
+  min-height: 44px;
+  max-height: 44px;
   border-bottom: 1px solid #c7c9cf;
   display: flex;
   justify-content: center;
