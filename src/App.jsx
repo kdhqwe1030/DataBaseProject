@@ -9,6 +9,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DepartmentView from './pages/DepartmentView';
 import DepartmentSearchAdvisor from './pages/DepartmentSEarchAdvisor';
 import ClubView from './pages/ClubView';
+import CLubPeolpe from './pages/CLubPeolpe';
+import ClubController from './pages/ClubController';
+import ClubAdvisor from './pages/ClubAdvisor';
 const App = () => {
   return (
     <BrowserRouter>
@@ -53,10 +56,10 @@ const AppContent = () => {
             navigate('/club/view');
             break;
           case '동아리 생성/수정/삭제':
-            navigate('/club/people');
+            navigate('/club/controller');
             break;
           case '동아리별 인원 조회':
-            navigate('/club/controller');
+            navigate('/club/people');
             break;
           case '동아리별 지도교수 정보 조회':
             navigate('/club/advisor');
@@ -154,9 +157,9 @@ const routes = {
   '/department/view': <DepartmentView />,
   '/department/advisor': <DepartmentSearchAdvisor />,
   '/club/view': <ClubView />,
-  // '/club/people':,
-  // '/club/controller':,
-  // '/club/advisor':
+  '/club/people': <CLubPeolpe />,
+  '/club/controller': <ClubController />,
+  '/club/advisor': <ClubAdvisor />,
 };
 const BaseContainer = styled.div`
   width: 100vw;

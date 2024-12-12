@@ -11,10 +11,10 @@ export const handleSearch = async (filters) => {
     console.error('Error fetching data:', error);
   }
 };
-export const handleSearchAdvisor = async (filters) => {
+export const handleSearchMembers = async (filters) => {
   try {
     const response = await axios.post(
-      'http://localhost:5000/api/departmentSearch/advisor',
+      'http://localhost:5000/api/clubMembers',
       filters
     );
     console.log(response.data);
