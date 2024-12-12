@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
 import List from './components/List';
@@ -6,54 +7,95 @@ import Select from './components/Select';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DepartmentView from './pages/DepartmentView';
+import DepartmentSearchAdvisor from './pages/DepartmentSEarchAdvisor';
 const App = () => {
-  const [selectService, setSelectService] = useState('동아리 관리'); //학부 서비스 메뉴 리스트
-  const [additionalList, setAdditionalList] = useState(
-    serviceMenu[selectService]
-  ); // 선택한 서비스 리스트
-  const [selectList, setSelectList] = useState(''); // 선택한 서비스 리스트 내에서 선택한 것
-  const [selectStack, setSelectStack] = useState([]); //Select Stack
-  const AppenStack = (item) => {
-    if (!selectStack.includes(item)) {
-      setSelectStack((prevStack) => [...prevStack, item]);
-    }
-    console.log('After adding:', selectStack);
-    console.log('After adding:', selectStack);
-  };
-  useEffect(
-    () => setAdditionalList(serviceMenu[selectService]),
-    [selectService]
-  );
   return (
     <BrowserRouter>
-      <BaseContainer>
-        <Header setSelectService={setSelectService}></Header>
-        <ContentWrapper>
-          <List
-            selectService={selectService}
-            selectList={selectList}
-            setSelectList={setSelectList}
-            additionalList={additionalList}
-            AppenStack={AppenStack}
-          ></List>
-          <ListExceptContainer>
-            <Select
-              selectList={selectList}
-              setSelectList={setSelectList}
-              selectStack={selectStack}
-              setSelectStack={setSelectStack}
-            ></Select>
-            <Routes>
-              <Route path="/" element={<DepartmentView />} />
-            </Routes>
-          </ListExceptContainer>
-        </ContentWrapper>
-      </BaseContainer>
+      <AppContent />
     </BrowserRouter>
   );
 };
 
 export default App;
+const AppContent = () => {
+  const navigate = useNavigate();
+  const [selectService, setSelectService] = useState('동아리 관리');
+  const [additionalList, setAdditionalList] = useState(
+    serviceMenu[selectService]
+  );
+  const [selectList, setSelectList] = useState('');
+  const [selectStack, setSelectStack] = useState([]);
+
+  const AppenStack = (item) => {
+    if (!selectStack.includes(item)) {
+      setSelectStack((prevStack) => [...prevStack, item]);
+    }
+    console.log('After adding:', selectStack);
+  };
+
+  useEffect(
+    () => setAdditionalList(serviceMenu[selectService]),
+    [selectService]
+  );
+
+  useEffect(() => {
+    const handleNavigation = () => {
+      // selectStack이 비어있을 때만 홈으로 이동
+      if (selectStack.length === 0) {
+        console.log('home으로');
+        return navigate('/');
+      }
+
+      if (selectList) {
+        const lastSelection = selectStack[selectStack.length - 1];
+        if (lastSelection === selectList) {
+          switch (selectList) {
+            case '학과 조회':
+              navigate('/department/view');
+              break;
+            case '학과별 지도교수 현황':
+              navigate('/department/advisor');
+              break;
+            case '학과':
+              navigate('/department');
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    };
+
+    handleNavigation();
+  }, [selectList, navigate, selectStack]);
+  return (
+    <BaseContainer>
+      <Header setSelectService={setSelectService} />
+      <ContentWrapper>
+        <List
+          selectService={selectService}
+          selectList={selectList}
+          setSelectList={setSelectList}
+          additionalList={additionalList}
+          AppenStack={AppenStack}
+        />
+        <ListExceptContainer>
+          <Select
+            selectList={selectList}
+            setSelectList={setSelectList}
+            selectStack={selectStack}
+            setSelectStack={setSelectStack}
+          />
+          <Routes>
+            {Object.entries(routes).map(([path, element]) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
+        </ListExceptContainer>
+      </ContentWrapper>
+    </BaseContainer>
+  );
+};
 const serviceMenu = {
   '동아리 관리': [
     '동아리 기본 정보 조회',
@@ -97,7 +139,11 @@ const serviceMenu = {
   ],
   '학과 관리': ['학과 조회', '학과별 지도교수 현황'],
 };
-
+const routes = {
+  '/': <Home />,
+  '/department/view': <DepartmentView />,
+  '/department/advisor': <DepartmentSearchAdvisor />,
+};
 const BaseContainer = styled.div`
   width: 100vw;
   height: 100vh;

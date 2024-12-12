@@ -66,6 +66,7 @@ const SelectItem = ({
     setSelectList(text);
   };
   const onClickX = (text) => {
+    setSelectList(selectStack[selectStack.length - 2]);
     let filtered = selectStack.filter((element) => element !== text);
     setSelectStack(filtered);
   };
