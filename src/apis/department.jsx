@@ -14,7 +14,7 @@ export const handleSearch = async (filters) => {
 export const handleSearchAdvisor = async (filters) => {
   try {
     const response = await axios.post(
-      'http://localhost:5000/api/departmentSearch',
+      'http://localhost:5000/api/departmentSearch/advisor',
       filters
     );
     console.log(response.data);

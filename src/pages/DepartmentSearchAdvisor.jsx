@@ -13,7 +13,7 @@ import {
   RowContentend,
   RowWrapper,
 } from '../components/TableStyled';
-import { handleSearch } from '../apis/department';
+import { handleSearchAdvisor } from '../apis/department';
 
 const DepartmentSearchAdvisor = () => {
   const [filters, setFilters] = useState({
@@ -27,7 +27,7 @@ const DepartmentSearchAdvisor = () => {
   };
   const searchDepartments = async () => {
     try {
-      const response = await handleSearch(filters);
+      const response = await handleSearchAdvisor(filters);
       if (response) {
         setDepartments(response);
       }
@@ -42,7 +42,10 @@ const DepartmentSearchAdvisor = () => {
         학과서비스메뉴 &gt; 학과 관리 &gt; 학과별 지도교수 현황
       </RouteText>
       <ContentWrapper>
-        <Title1 text={'학과리스트 조회'} SearchClick={searchDepartments} />
+        <Title1
+          text={'학과별 지도교수 현황 조회'}
+          SearchClick={searchDepartments}
+        />
         <CheckContainer>
           <CheckTitle>학과코드</CheckTitle>
           <Input
@@ -59,21 +62,25 @@ const DepartmentSearchAdvisor = () => {
         </CheckContainer>
       </ContentWrapper>
       <ContentWrapper>
-        <Title2 text={'학과 리스트'} />
+        <Title2 text={'교수 리스트'} />
         <TableContainer>
           <HeaderWrapper>
-            <HeaderContent>학과코드</HeaderContent>
-            <HeaderGrowContent>학과이름</HeaderGrowContent>
-            <HeaderContent>학부장</HeaderContent>
-            <HeaderContentend>학과위치</HeaderContentend>
+            <HeaderContent>교수ID</HeaderContent>
+            <HeaderGrowContent>학부</HeaderGrowContent>
+            <HeaderContent>이름</HeaderContent>
+            <HeaderContent>전화번호</HeaderContent>
+            <HeaderContent>연구실 위치</HeaderContent>
+            <HeaderContentend>연구 분야</HeaderContentend>
           </HeaderWrapper>
           <RowWrapper>
             {departments.map((row, index) => (
-              <Row key={row.department_id} $isEven={index % 2 === 1}>
-                <RowContent>{row.department_id}</RowContent>
+              <Row key={row.advisor_id} $isEven={index % 2 === 1}>
+                <RowContent>{row.advisor_id}</RowContent>
                 <RowGrowContent>{row.department_name}</RowGrowContent>
-                <RowContent>{row.department_head}</RowContent>
-                <RowContentend>{row.department_location}</RowContentend>
+                <RowContent>{row.advisor_name}</RowContent>
+                <RowContent>{row.phone_number}</RowContent>
+                <RowContent>{row.lab_location}</RowContent>
+                <RowContentend>{row.study_field}</RowContentend>
               </Row>
             ))}
           </RowWrapper>

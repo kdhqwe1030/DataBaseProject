@@ -19,7 +19,7 @@ export const HeaderContent = styled.div`
   border-right: 1px solid #c7c9cf;
   text-align: center;
   padding-top: 8px;
-  width: 100px;
+  width: 120px;
   height: 100%;
 `;
 export const HeaderGrowContent = styled(HeaderContent)`
@@ -56,7 +56,7 @@ export const Row = styled.div`
 export const RowContent = styled.div`
   font-size: 14px;
   text-align: center;
-  width: 100px;
+  width: 120px;
 
   border-right: 1px solid #c7c9cf;
   display: flex;
@@ -70,5 +70,5 @@ export const RowGrowContent = styled(RowContent)`
 
 export const RowContentend = styled(RowContent)`
   border-right: none;
-  width: 92px;
+  width: 112px;
 `;

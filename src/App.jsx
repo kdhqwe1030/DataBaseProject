@@ -47,21 +47,18 @@ const AppContent = () => {
       }
 
       if (selectList) {
-        const lastSelection = selectStack[selectStack.length - 1];
-        if (lastSelection === selectList) {
-          switch (selectList) {
-            case '학과 조회':
-              navigate('/department/view');
-              break;
-            case '학과별 지도교수 현황':
-              navigate('/department/advisor');
-              break;
-            case '학과':
-              navigate('/department');
-              break;
-            default:
-              break;
-          }
+        switch (selectList) {
+          case '학과 조회':
+            navigate('/department/view');
+            break;
+          case '학과별 지도교수 현황':
+            navigate('/department/advisor');
+            break;
+          case '학과':
+            navigate('/department');
+            break;
+          default:
+            break;
         }
       }
     };
