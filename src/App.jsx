@@ -5,6 +5,7 @@ import List from './components/List';
 import Select from './components/Select';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import DepartmentView from './pages/DepartmentView';
 const App = () => {
   const [selectService, setSelectService] = useState('동아리 관리'); //학부 서비스 메뉴 리스트
   const [additionalList, setAdditionalList] = useState(
@@ -43,7 +44,7 @@ const App = () => {
               setSelectStack={setSelectStack}
             ></Select>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<DepartmentView />} />
             </Routes>
           </ListExceptContainer>
         </ContentWrapper>
@@ -55,11 +56,11 @@ const App = () => {
 export default App;
 const serviceMenu = {
   '동아리 관리': [
+    '동아리 기본 정보 조회',
     '동아리 생성/수정/삭제',
-    '동아리 기본 정보 조회 (이름, 위치, 설립일 등)',
-    '동아리별 지도교수 정보 조회',
     '동아리 소속 학과 정보 조회',
-    '동아리 검색 (이름, 학과별)',
+    '동아리별 인원 조회',
+    '동아리별 지도교수 정보 조회',
   ],
   '회원 관리': [
     '신규 회원 등록',
@@ -94,12 +95,7 @@ const serviceMenu = {
     '지도교수별 담당 동아리 조회',
     '지도교수 상담 일정 관리',
   ],
-  '학과 관리': [
-    '학과별 동아리 현황 조회',
-    '학과별 동아리 활동 통계',
-    '학과장 정보 조회',
-    '학과별 지도교수 현황',
-  ],
+  '학과 관리': ['학과 조회', '학과별 지도교수 현황'],
 };
 
 const BaseContainer = styled.div`

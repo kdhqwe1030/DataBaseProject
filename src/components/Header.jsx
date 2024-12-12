@@ -20,6 +20,9 @@ const Header = ({ setSelectService }) => {
         </MainFrameText>
         {toggle && (
           <FrameList>
+            <ListItem onClick={() => onClickEvent('학과 관리')}>
+              학과 관리
+            </ListItem>
             <ListItem onClick={() => onClickEvent('동아리 관리')}>
               동아리 관리
             </ListItem>
@@ -34,9 +37,6 @@ const Header = ({ setSelectService }) => {
             </ListItem>
             <ListItem onClick={() => onClickEvent('지도교수 관련')}>
               지도교수 관련
-            </ListItem>
-            <ListItem onClick={() => onClickEvent('학과 관리')}>
-              학과 관련
             </ListItem>
           </FrameList>
         )}
