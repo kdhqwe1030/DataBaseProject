@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DepartmentView from './pages/DepartmentView';
 import DepartmentSearchAdvisor from './pages/DepartmentSEarchAdvisor';
+import ClubView from './pages/ClubView';
 const App = () => {
   return (
     <BrowserRouter>
@@ -48,6 +49,19 @@ const AppContent = () => {
 
       if (selectList) {
         switch (selectList) {
+          case '동아리 기본정보 조회':
+            navigate('/club/view');
+            break;
+          case '동아리 생성/수정/삭제':
+            navigate('/club/people');
+            break;
+          case '동아리별 인원 조회':
+            navigate('/club/controller');
+            break;
+          case '동아리별 지도교수 정보 조회':
+            navigate('/club/advisor');
+            break;
+
           case '학과 조회':
             navigate('/department/view');
             break;
@@ -95,9 +109,8 @@ const AppContent = () => {
 };
 const serviceMenu = {
   '동아리 관리': [
-    '동아리 기본 정보 조회',
+    '동아리 기본정보 조회',
     '동아리 생성/수정/삭제',
-    '동아리 소속 학과 정보 조회',
     '동아리별 인원 조회',
     '동아리별 지도교수 정보 조회',
   ],
@@ -140,6 +153,10 @@ const routes = {
   '/': <Home />,
   '/department/view': <DepartmentView />,
   '/department/advisor': <DepartmentSearchAdvisor />,
+  '/club/view': <ClubView />,
+  // '/club/people':,
+  // '/club/controller':,
+  // '/club/advisor':
 };
 const BaseContainer = styled.div`
   width: 100vw;
