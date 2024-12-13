@@ -1,76 +1,128 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
 import List from './components/List';
 import Select from './components/Select';
 import Home from './pages/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import DepartmentView from './pages/DepartmentView';
+import DepartmentSearchAdvisor from './pages/DepartmentSEarchAdvisor';
+import ClubView from './pages/ClubView';
+import CLubPeolpe from './pages/CLubPeolpe';
+import ClubController from './pages/ClubController';
+import ClubAdvisor from './pages/ClubAdvisor';
+import ClubAddController from './pages/ClubAddController';
 const App = () => {
-  const [selectService, setSelectService] = useState('동아리 관리'); //학부 서비스 메뉴 리스트
-  const [additionalList, setAdditionalList] = useState(
-    serviceMenu[selectService]
-  ); // 선택한 서비스 리스트
-  const [selectList, setSelectList] = useState(''); // 선택한 서비스 리스트 내에서 선택한 것
-  const [selectStack, setSelectStack] = useState([]); //Select Stack
-  const AppenStack = (item) => {
-    if (!selectStack.includes(item)) {
-      setSelectStack((prevStack) => [...prevStack, item]);
-    }
-    console.log('After adding:', selectStack);
-    console.log('After adding:', selectStack);
-  };
-  useEffect(
-    () => setAdditionalList(serviceMenu[selectService]),
-    [selectService]
-  );
   return (
     <BrowserRouter>
-      <BaseContainer>
-        <Header setSelectService={setSelectService}></Header>
-        <ContentWrapper>
-          <List
-            selectService={selectService}
-            selectList={selectList}
-            setSelectList={setSelectList}
-            additionalList={additionalList}
-            AppenStack={AppenStack}
-          ></List>
-          <ListExceptContainer>
-            <Select
-              selectList={selectList}
-              setSelectList={setSelectList}
-              selectStack={selectStack}
-              setSelectStack={setSelectStack}
-            ></Select>
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </ListExceptContainer>
-        </ContentWrapper>
-      </BaseContainer>
+      <AppContent />
     </BrowserRouter>
   );
 };
 
 export default App;
+const AppContent = () => {
+  const navigate = useNavigate();
+  const [selectService, setSelectService] = useState('동아리 관리');
+  const [additionalList, setAdditionalList] = useState(
+    serviceMenu[selectService]
+  );
+  const [selectList, setSelectList] = useState('');
+  const [selectStack, setSelectStack] = useState([]);
+
+  const AppenStack = (item) => {
+    if (!selectStack.includes(item)) {
+      setSelectStack((prevStack) => [...prevStack, item]);
+    }
+    console.log('After adding:', selectStack);
+  };
+
+  useEffect(
+    () => setAdditionalList(serviceMenu[selectService]),
+    [selectService]
+  );
+
+  useEffect(() => {
+    const handleNavigation = () => {
+      // selectStack이 비어있을 때만 홈으로 이동
+      if (selectStack.length === 0) {
+        console.log('home으로');
+        return navigate('/');
+      }
+
+      if (selectList) {
+        switch (selectList) {
+          case '동아리 기본정보 조회':
+            navigate('/club/view');
+            break;
+          case '동아리 생성':
+            navigate('/club/addController');
+            break;
+          case '동아리 수정/삭제':
+            navigate('/club/controller');
+            break;
+          case '동아리별 인원 조회':
+            navigate('/club/people');
+            break;
+          case '동아리별 지도교수 정보 조회':
+            navigate('/club/advisor');
+            break;
+
+          case '학과 조회':
+            navigate('/department/view');
+            break;
+          case '학과별 지도교수 현황':
+            navigate('/department/advisor');
+            break;
+          case '학과':
+            navigate('/department');
+            break;
+          default:
+            break;
+        }
+      }
+    };
+
+    handleNavigation();
+  }, [selectList, navigate, selectStack]);
+  return (
+    <BaseContainer>
+      <Header setSelectService={setSelectService} />
+      <ContentWrapper>
+        <List
+          selectService={selectService}
+          selectList={selectList}
+          setSelectList={setSelectList}
+          additionalList={additionalList}
+          AppenStack={AppenStack}
+        />
+        <ListExceptContainer>
+          <Select
+            selectList={selectList}
+            setSelectList={setSelectList}
+            selectStack={selectStack}
+            setSelectStack={setSelectStack}
+          />
+          <Routes>
+            {Object.entries(routes).map(([path, element]) => (
+              <Route key={path} path={path} element={element} />
+            ))}
+          </Routes>
+        </ListExceptContainer>
+      </ContentWrapper>
+    </BaseContainer>
+  );
+};
 const serviceMenu = {
   '동아리 관리': [
-    '동아리 생성/수정/삭제',
-    '동아리 기본 정보 조회 (이름, 위치, 설립일 등)',
+    '동아리 기본정보 조회',
+    '동아리 생성',
+    '동아리 수정/삭제',
+    '동아리별 인원 조회',
     '동아리별 지도교수 정보 조회',
-    '동아리 소속 학과 정보 조회',
-    '동아리 검색 (이름, 학과별)',
   ],
-  '회원 관리': [
-    '신규 회원 등록',
-    '회원 탈퇴 처리',
-    '전체 회원 목록 조회',
-    '활동/비활동 회원 구분',
-    '회원 상세 정보 조회 (학번, 이름, 연락처, 학과 등)',
-    '회원 가입일/탈퇴일 이력 관리',
-    '성별별 회원 통계',
-    '학과별 회원 통계',
-  ],
+  '회원 관리': ['신규 회원 등록', '회원 탈퇴 처리', '전체 회원 목록 조회'],
   '활동 관리': [
     '동아리 활동 계획 등록',
     '활동 결과 보고서 등록',
@@ -94,14 +146,18 @@ const serviceMenu = {
     '지도교수별 담당 동아리 조회',
     '지도교수 상담 일정 관리',
   ],
-  '학과 관리': [
-    '학과별 동아리 현황 조회',
-    '학과별 동아리 활동 통계',
-    '학과장 정보 조회',
-    '학과별 지도교수 현황',
-  ],
+  '학과 관리': ['학과 조회', '학과별 지도교수 현황'],
 };
-
+const routes = {
+  '/': <Home />,
+  '/department/view': <DepartmentView />,
+  '/department/advisor': <DepartmentSearchAdvisor />,
+  '/club/view': <ClubView />,
+  '/club/people': <CLubPeolpe />,
+  '/club/controller': <ClubController />,
+  '/club/addController': <ClubAddController />,
+  '/club/advisor': <ClubAdvisor />,
+};
 const BaseContainer = styled.div`
   width: 100vw;
   height: 100vh;
