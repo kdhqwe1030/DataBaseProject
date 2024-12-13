@@ -12,6 +12,7 @@ import ClubView from './pages/ClubView';
 import CLubPeolpe from './pages/CLubPeolpe';
 import ClubController from './pages/ClubController';
 import ClubAdvisor from './pages/ClubAdvisor';
+import ClubAddController from './pages/ClubAddController';
 const App = () => {
   return (
     <BrowserRouter>
@@ -54,6 +55,9 @@ const AppContent = () => {
         switch (selectList) {
           case '동아리 기본정보 조회':
             navigate('/club/view');
+            break;
+          case '동아리 생성':
+            navigate('/club/addController');
             break;
           case '동아리 수정/삭제':
             navigate('/club/controller');
@@ -151,6 +155,7 @@ const routes = {
   '/club/view': <ClubView />,
   '/club/people': <CLubPeolpe />,
   '/club/controller': <ClubController />,
+  '/club/addController': <ClubAddController />,
   '/club/advisor': <ClubAdvisor />,
 };
 const BaseContainer = styled.div`

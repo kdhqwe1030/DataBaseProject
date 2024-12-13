@@ -15,9 +15,9 @@ import {
   RowWrapper,
   RowShortWrapper,
 } from '../components/TableStyled';
-import { handleSearch, handleModify, handleDeleteClub } from '../apis/club';
+import { handleSearch, handleAddClub } from '../apis/club';
 
-const ClubController = () => {
+const ClubAddController = () => {
   const [filters, setFilters] = useState({
     department_id: '',
     department_name: '',
@@ -41,9 +41,7 @@ const ClubController = () => {
   };
   useEffect(() => {}, [clubs]);
 
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [editData, setEditData] = useState({
+  const [formData, setFormData] = useState({
     club_id: '',
     department_name: '',
     club_name: '',
@@ -52,63 +50,35 @@ const ClubController = () => {
     advisor_name: '',
   });
 
-  const handleEditChange = (e) => {
+  const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setEditData({ ...editData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
-  const modifyDepartments = async () => {
-    console.log('프론트에서 보내는 데이터', editData);
+
+  const handleAdd = async () => {
+    console.log('추가될 데이터:', formData);
     try {
-      const response = await handleModify(editData);
+      const response = await handleAddClub(formData); // API 함수는 별도로 만드셔야 합니다
       if (response) {
         setClubs(response);
-        alert('수정되었습니다!');
+        alert('추가되었습니다!');
+        setFormData({
+          // 폼 초기화
+          club_id: '',
+          department_name: '',
+          club_name: '',
+          club_location: '',
+          founded_date: '',
+          advisor_name: '',
+        });
       }
     } catch (error) {
-      console.error('Modify failed:', error);
-    }
-  };
-  const handleRowClick = (row) => {
-    setSelectedRow(row);
-    setEditData(row);
-  };
-
-  const handleSave = () => {
-    console.log('저장된 데이터:', editData);
-    setEditMode(false);
-    modifyDepartments();
-  };
-
-  const handleDelete = () => {
-    console.log('삭제될 데이터:', selectedRow);
-    deltetClub();
-    setSelectedRow(null);
-    setEditData({
-      club_id: '',
-      department_name: '',
-      club_name: '',
-      club_location: '',
-      founded_date: '',
-      advisor_name: '',
-    });
-  };
-
-  const deltetClub = async () => {
-    console.log('프론트에서 보내는 데이터', selectedRow);
-    try {
-      const response = await handleDeleteClub(selectedRow);
-      if (response) {
-        setClubs(response);
-      }
-    } catch (error) {
-      console.error('Modify failed:', error);
+      console.error('Add failed:', error);
     }
   };
   return (
     <BaseContainer>
-      <RouteText>
-        학과서비스메뉴 &gt; 동아리 관리 &gt; 동아리 수정/삭제
-      </RouteText>
+      <RouteText>학과서비스메뉴 &gt; 동아리 관리 &gt; 동아리 추가</RouteText>
       <ContentWrapper>
         <Title1 text={'동아리 기본정보 조회'} SearchClick={searchDepartments} />
         <CheckContainer>
@@ -149,12 +119,7 @@ const ClubController = () => {
                 .toISOString()
                 .split('T')[0];
               return (
-                <Row
-                  key={row.club_id}
-                  $isEven={index % 2 === 1}
-                  onClick={() => handleRowClick(row)}
-                  $isChoose={row === selectedRow ? true : false}
-                >
+                <Row key={row.club_id} $isEven={index % 2 === 1}>
                   <RowContent>{row.club_id}</RowContent>
                   <RowGrowContent>{row.department_name}</RowGrowContent>
                   <RowGrowContent>{row.club_name}</RowGrowContent>
@@ -166,93 +131,64 @@ const ClubController = () => {
             })}
           </RowShortWrapper>
         </TableShortContainer>
-        <Title2 text={'동아리 수정 및 삭제'} />
+        <Title2 text={'동아리 추가'} />
         <FormContainer>
           <FormGrid>
             <FormItem>
               <label>동아리코드:</label>
               <input
                 name="club_id"
-                value={editData.club_id}
-                onChange={handleEditChange}
-                disabled={!editMode}
+                value={formData.club_id}
+                onChange={handleFormChange}
               />
             </FormItem>
             <FormItem>
               <label>학과이름:</label>
               <input
                 name="department_name"
-                value={editData.department_name}
-                onChange={handleEditChange}
-                disabled={!editMode}
+                value={formData.department_name}
+                onChange={handleFormChange}
               />
             </FormItem>
             <FormItem>
               <label>동아리이름:</label>
               <input
                 name="club_name"
-                value={editData.club_name}
-                onChange={handleEditChange}
-                disabled={!editMode}
+                value={formData.club_name}
+                onChange={handleFormChange}
               />
             </FormItem>
             <FormItem>
               <label>동아리방 위치:</label>
               <input
                 name="club_location"
-                value={editData.club_location}
-                onChange={handleEditChange}
-                disabled={!editMode}
+                value={formData.club_location}
+                onChange={handleFormChange}
               />
             </FormItem>
             <FormItem>
               <label>설립일:</label>
               <input
                 name="founded_date"
-                value={editData.founded_date}
-                onChange={handleEditChange}
-                disabled={!editMode}
+                value={formData.founded_date}
+                onChange={handleFormChange}
+                type="date"
               />
             </FormItem>
             <FormItem>
               <label>지도교수:</label>
               <input
                 name="advisor_name"
-                value={editData.advisor_name}
-                onChange={handleEditChange}
-                disabled={!editMode}
+                value={formData.advisor_name}
+                onChange={handleFormChange}
               />
             </FormItem>
           </FormGrid>
 
           <ButtonGroup>
-            {!editMode ? (
-              <>
-                <button
-                  onClick={() => setEditMode(true)}
-                  disabled={!selectedRow}
-                  className="edit"
-                >
-                  수정
-                </button>
-                <button
-                  onClick={handleDelete}
-                  disabled={!selectedRow}
-                  className="delete"
-                >
-                  삭제
-                </button>
-              </>
-            ) : (
-              <>
-                <button onClick={handleSave} className="save">
-                  저장
-                </button>
-                <button onClick={() => setEditMode(false)} className="cancel">
-                  취소
-                </button>
-              </>
-            )}
+            <button onClick={handleAdd} className="save">
+              추가
+            </button>
           </ButtonGroup>
         </FormContainer>
       </ContentWrapper>
@@ -260,7 +196,7 @@ const ClubController = () => {
   );
 };
 
-export default ClubController;
+export default ClubAddController;
 
 const BaseContainer = styled.div`
   width: 100%;
@@ -318,7 +254,6 @@ const FormContainer = styled.div`
 
 const FormGrid = styled.div`
   display: grid;
-  /* grid-template-columns: 1fr 1fr; */
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
 `;
@@ -359,17 +294,6 @@ const ButtonGroup = styled.div`
     border: 0px;
 
     &.edit {
-      background-color: #ab3d59;
-      &:hover {
-        background-color: #fff;
-        color: #ab3d59;
-      }
-      &:disabled {
-        background-color: #ccc;
-      }
-    }
-
-    &.delete {
       background-color: #ab3d59;
       &:hover {
         background-color: #fff;
