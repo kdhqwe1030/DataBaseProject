@@ -80,17 +80,19 @@ const ClubController = () => {
   };
 
   const handleDelete = () => {
-    console.log('삭제될 데이터:', selectedRow);
-    deltetClub();
-    setSelectedRow(null);
-    setEditData({
-      club_id: '',
-      department_name: '',
-      club_name: '',
-      club_location: '',
-      founded_date: '',
-      advisor_name: '',
-    });
+    if (confirm('삭제하시겠습니까?')) {
+      console.log('삭제될 데이터:', selectedRow);
+      deltetClub();
+      setSelectedRow(null);
+      setEditData({
+        club_id: '',
+        department_name: '',
+        club_name: '',
+        club_location: '',
+        founded_date: '',
+        advisor_name: '',
+      });
+    } else return;
   };
 
   const deltetClub = async () => {
@@ -318,7 +320,6 @@ const FormContainer = styled.div`
 
 const FormGrid = styled.div`
   display: grid;
-  /* grid-template-columns: 1fr 1fr; */
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
 `;
