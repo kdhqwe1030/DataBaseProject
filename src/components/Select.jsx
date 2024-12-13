@@ -2,11 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import Home from '../assets/Home.png';
 import windowEtc from '../assets/windowEtc.png';
+import { useNavigate } from 'react-router-dom';
 
 const Select = ({ selectList, setSelectList, selectStack, setSelectStack }) => {
+  const navigator = useNavigate();
   return (
     <BaseContainer>
-      <HomeIcon src={Home} />
+      <HomeIcon
+        src={Home}
+        onClick={() => {
+          navigator('/');
+        }}
+      />
       <MainSelectWrapper>
         {selectStack.map((item) => (
           <SelectItem

@@ -5,6 +5,11 @@ export const TableContainer = styled.div`
   border-top: 1px solid #000;
   height: 300px;
 `;
+export const TableShortContainer = styled.div`
+  border: 1px solid #c7c9cf;
+  border-top: 1px solid #000;
+  height: 200px;
+`;
 
 export const HeaderWrapper = styled.div`
   background-color: #f7f7f7;
@@ -28,6 +33,22 @@ export const HeaderGrowContent = styled(HeaderContent)`
 export const HeaderContentend = styled(HeaderContent)`
   border-right: none;
 `;
+export const RowShortWrapper = styled.div`
+  height: 160px;
+  border-bottom: 1px solid #c7c9cf;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+`;
 export const RowWrapper = styled.div`
   height: 260px;
   border-bottom: 1px solid #c7c9cf;
@@ -47,7 +68,8 @@ export const RowWrapper = styled.div`
 export const Row = styled.div`
   display: flex;
   height: 40px;
-  background-color: ${({ $isEven }) => ($isEven ? '#fafafa' : 'white')};
+  background-color: ${({ $isChoose, $isEven }) =>
+    $isChoose ? '#efeffe' : $isEven ? '#fafafa' : 'white'};
   &:last-child {
     border-bottom: 1px solid #c7c9cf;
   }

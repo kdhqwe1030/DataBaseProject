@@ -13,12 +13,10 @@ import {
   RowContentend,
   RowWrapper,
 } from '../components/TableStyled';
-import { handleSearch } from '../apis/club';
+import { handleSearchAdvisor } from '../apis/club';
 
 const ClubAdvisor = () => {
   const [filters, setFilters] = useState({
-    department_id: '',
-    department_name: '',
     club_name: '',
   });
   const [departments, setDepartments] = useState([]);
@@ -29,7 +27,7 @@ const ClubAdvisor = () => {
   const searchDepartments = async () => {
     console.log('프론트에서 보내는 데이터', filters);
     try {
-      const response = await handleSearch(filters);
+      const response = await handleSearchAdvisor(filters);
       if (response) {
         setDepartments(response);
       }
@@ -41,23 +39,11 @@ const ClubAdvisor = () => {
   return (
     <BaseContainer>
       <RouteText>
-        학과서비스메뉴 &gt; 동아리 관리 &gt; 동아리 기본정보 조회
+        학과서비스메뉴 &gt; 동아리 관리 &gt; 동아리 지도교수 조회
       </RouteText>
       <ContentWrapper>
-        <Title1 text={'동아리 기본정보 조회'} SearchClick={searchDepartments} />
+        <Title1 text={'동아리 지도교수 조회'} SearchClick={searchDepartments} />
         <CheckContainer>
-          <CheckTitle>학과코드</CheckTitle>
-          <Input
-            name="department_id"
-            value={filters.department_id}
-            onChange={handleChange}
-          />
-          <CheckTitle>학과이름</CheckTitle>
-          <Input
-            name="department_name"
-            value={filters.department_name}
-            onChange={handleChange}
-          />
           <CheckTitle>동아리 이름</CheckTitle>
           <Input
             name="club_name"
@@ -67,32 +53,29 @@ const ClubAdvisor = () => {
         </CheckContainer>
       </ContentWrapper>
       <ContentWrapper>
-        <Title2 text={'동아리 리스트'} />
+        <Title2 text={'지도교수 리스트'} />
         <TableContainer>
           <HeaderWrapper>
-            <HeaderContent>동아리코드</HeaderContent>
-            <HeaderGrowContent>학과이름</HeaderGrowContent>
-            <HeaderGrowContent>동아리이름</HeaderGrowContent>
-            <HeaderContent>동아리방 위치</HeaderContent>
-            <HeaderContent>설립일</HeaderContent>
-            <HeaderContentend>지도교수</HeaderContentend>
+            <HeaderContent>교수코드</HeaderContent>
+            <HeaderGrowContent>학과</HeaderGrowContent>
+            <HeaderGrowContent>동아리 이름</HeaderGrowContent>
+            <HeaderContent>이름</HeaderContent>
+            <HeaderContent>전화번호</HeaderContent>
+            <HeaderContent>연구실 위치</HeaderContent>
+            <HeaderContentend>연구 분야</HeaderContentend>
           </HeaderWrapper>
           <RowWrapper>
-            {departments.map((row, index) => {
-              const formattedDate = new Date(row.founded_date)
-                .toISOString()
-                .split('T')[0];
-              return (
-                <Row key={row.club_id} $isEven={index % 2 === 1}>
-                  <RowContent>{row.club_id}</RowContent>
-                  <RowGrowContent>{row.department_name}</RowGrowContent>
-                  <RowGrowContent>{row.club_name}</RowGrowContent>
-                  <RowContent>{row.club_location}</RowContent>
-                  <RowContent>{formattedDate}</RowContent>
-                  <RowContentend>{row.advisor_name}</RowContentend>
-                </Row>
-              );
-            })}
+            {departments.map((row, index) => (
+              <Row key={row.advisor_id} $isEven={index % 2 === 1}>
+                <RowContent>{row.advisor_id}</RowContent>
+                <RowGrowContent>{row.department_name}</RowGrowContent>
+                <RowGrowContent>{row.club_name}</RowGrowContent>
+                <RowContent>{row.advisor_name}</RowContent>
+                <RowContent>{row.phone_number}</RowContent>
+                <RowContent>{row.lab_location}</RowContent>
+                <RowContentend>{row.study_field}</RowContentend>
+              </Row>
+            ))}
           </RowWrapper>
         </TableContainer>
       </ContentWrapper>
