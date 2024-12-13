@@ -48,7 +48,7 @@ export const handleModify = async (editData) => {
     console.error('Error fetching data:', error);
   }
 };
-export const handleDelete = async (editData) => {
+export const handleDeleteClub = async (editData) => {
   try {
     const response = await axios.post(
       'http://localhost:5000/api/clubDelete',

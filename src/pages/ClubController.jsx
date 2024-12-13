@@ -15,7 +15,7 @@ import {
   RowWrapper,
   RowShortWrapper,
 } from '../components/TableStyled';
-import { handleSearch, handleModify, handleDelete } from '../apis/club';
+import { handleSearch, handleModify, handleDeleteClub } from '../apis/club';
 
 const ClubController = () => {
   const [filters, setFilters] = useState({
@@ -92,10 +92,11 @@ const ClubController = () => {
       advisor_name: '',
     });
   };
+
   const deltetClub = async () => {
     console.log('프론트에서 보내는 데이터', selectedRow);
     try {
-      const response = await handleDelete(selectedRow);
+      const response = await handleDeleteClub(selectedRow);
       if (response) {
         setClubs(response);
       }

@@ -55,7 +55,7 @@ const AppContent = () => {
           case '동아리 기본정보 조회':
             navigate('/club/view');
             break;
-          case '동아리 생성/수정/삭제':
+          case '동아리 수정/삭제':
             navigate('/club/controller');
             break;
           case '동아리별 인원 조회':
@@ -113,7 +113,8 @@ const AppContent = () => {
 const serviceMenu = {
   '동아리 관리': [
     '동아리 기본정보 조회',
-    '동아리 생성/수정/삭제',
+    '동아리 생성',
+    '동아리 수정/삭제',
     '동아리별 인원 조회',
     '동아리별 지도교수 정보 조회',
   ],
